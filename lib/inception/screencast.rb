@@ -20,6 +20,10 @@ module Inception
       @browser.enable_screencast do |frame_data, session_id|
         broadcast_frame(frame_data, session_id)
       end
+      
+      @browser.enable_cursor_tracking do |cursor_type|
+        broadcast_cursor(cursor_type)
+      end
     end
 
     def stop
@@ -68,6 +72,25 @@ module Inception
           client.send(message)
         rescue => e
           puts "Error sending frame to client: #{e.message}"
+          @clients.delete(client)
+        end
+      end
+    end
+
+    def broadcast_cursor(cursor_type)
+      return if @clients.empty?
+
+      message = JSON.generate({
+        type: 'cursor',
+        cursor: cursor_type,
+        timestamp: Time.now.to_f
+      })
+
+      @clients.each do |client|
+        begin
+          client.send(message)
+        rescue => e
+          puts "Error sending cursor to client: #{e.message}"
           @clients.delete(client)
         end
       end

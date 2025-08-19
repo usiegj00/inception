@@ -173,10 +173,6 @@ module Inception
                   }
                   
                   
-                  .browser-screen.connected {
-                      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M2 2L14 14M2 14L14 2" stroke="green" stroke-width="2" fill="none"/></svg>') 8 8, crosshair;
-                  }
-                  
                   .browser-screen.disconnected {
                       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M2 2L14 14M2 14L14 2" stroke="red" stroke-width="2" fill="none"/></svg>') 8 8, crosshair;
                   }
@@ -306,6 +302,10 @@ module Inception
                               case 'frame':
                                   this.screen.src = `data:image/png;base64,${data.data}`;
                                   break;
+                                  
+                              case 'cursor':
+                                  this.updateCursor(data.cursor);
+                                  break;
                           }
                       }
                       
@@ -385,6 +385,52 @@ module Inception
                           this.statusIndicator.classList.toggle('connected', connected);
                           this.screen.classList.toggle('connected', connected);
                           this.screen.classList.toggle('disconnected', !connected);
+                          
+                          // Reset cursor style when disconnected
+                          if (!connected) {
+                              this.screen.style.cursor = '';
+                          }
+                      }
+                      
+                      updateCursor(cursorType) {
+                          // Only update cursor if connected
+                          if (!this.connected) return;
+                          
+                          // Map browser cursor types to CSS cursor values
+                          const cursorMap = {
+                              'pointer': 'pointer',
+                              'text': 'text',
+                              'grab': 'grab',
+                              'grabbing': 'grabbing',
+                              'not-allowed': 'not-allowed',
+                              'help': 'help',
+                              'wait': 'wait',
+                              'progress': 'progress',
+                              'crosshair': 'crosshair',
+                              'move': 'move',
+                              'e-resize': 'e-resize',
+                              'w-resize': 'w-resize',
+                              'n-resize': 'n-resize',
+                              's-resize': 's-resize',
+                              'ne-resize': 'ne-resize',
+                              'nw-resize': 'nw-resize',
+                              'se-resize': 'se-resize',
+                              'sw-resize': 'sw-resize',
+                              'ew-resize': 'ew-resize',
+                              'ns-resize': 'ns-resize',
+                              'nesw-resize': 'nesw-resize',
+                              'nwse-resize': 'nwse-resize',
+                              'default': 'default',
+                              'auto': 'default'
+                          };
+                          
+                          // Use mapped cursor or default
+                          const mappedCursor = cursorMap[cursorType] || 'default';
+                          
+                          // Apply cursor, but keep connection status styling
+                          if (this.connected) {
+                              this.screen.style.cursor = mappedCursor;
+                          }
                       }
                   }
                   

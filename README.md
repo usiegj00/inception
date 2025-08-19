@@ -7,6 +7,8 @@ A Ruby gem that provides Guacamole-like remote desktop functionality for headles
 - 🌐 **Remote Browser Control**: Control a headless Chrome browser through a web interface
 - 📺 **Real-time Screencast**: Live streaming of browser screen using WebSockets
 - 🖱️ **Interactive Input**: Mouse clicks and keyboard input forwarded to the browser
+- ⌨️ **Full Keyboard Support**: Special keys (Enter, Backspace, arrows) work correctly
+- 🎨 **Connection Status**: Visual cursor feedback showing connection health (green/red)
 - 🚀 **Easy Setup**: Simple CLI command to start the server
 - 🔧 **Built on Ferrum**: Leverages the powerful Ferrum gem for Chrome automation
 
@@ -35,9 +37,11 @@ This will:
 Open your browser to `http://localhost:8080` and you'll see the remote browser screen. You can:
 
 - **Click** anywhere on the screen to interact with the page
-- **Type** using your keyboard (when the web interface has focus)  
+- **Type** using your keyboard - letters, numbers, and special keys all work
+- **Use special keys** like Enter, Backspace, Tab, and arrow keys
 - **Navigate** to new URLs using the address bar
 - **Refresh** the current page
+- **See connection status** via the cursor color (green = connected, red = disconnected)
 
 ### Command Options
 

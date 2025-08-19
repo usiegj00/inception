@@ -106,6 +106,71 @@ module Inception
       end
     end
 
+    def enable_cursor_tracking(&callback)
+      ensure_started
+      @cursor_callback = callback
+      
+      # Enable runtime for script injection
+      @page.command('Runtime.enable')
+      
+      # Inject script to track cursor changes
+      @page.evaluate(<<~JS)
+        (function() {
+          let lastCursor = null;
+          
+          function reportCursor(cursor) {
+            if (cursor !== lastCursor) {
+              lastCursor = cursor;
+              window.reportCursorChange && window.reportCursorChange(cursor);
+            }
+          }
+          
+          // Track cursor on mouseover events
+          document.addEventListener('mouseover', function(e) {
+            const computedStyle = window.getComputedStyle(e.target);
+            reportCursor(computedStyle.cursor);
+          });
+          
+          // Also check on mousemove for dynamic cursor changes
+          let mouseMoveTimeout;
+          document.addEventListener('mousemove', function(e) {
+            clearTimeout(mouseMoveTimeout);
+            mouseMoveTimeout = setTimeout(() => {
+              const computedStyle = window.getComputedStyle(e.target);
+              reportCursor(computedStyle.cursor);
+            }, 50);
+          });
+          
+          // Report initial cursor
+          reportCursor(window.getComputedStyle(document.body).cursor);
+        })();
+      JS
+      
+      # Set up callback for cursor reports
+      @page.evaluate(<<~JS)
+        window.reportCursorChange = function(cursor) {
+          fetch('data:text/plain;charset=utf-8,' + encodeURIComponent('CURSOR:' + cursor))
+            .catch(() => {}); // Ignore errors, we'll handle via other means
+        };
+      JS
+      
+      # Alternative: use console API to capture cursor changes
+      @page.command('Runtime.addBinding', name: 'reportCursorChange')
+      @page.on('Runtime.bindingCalled') do |params|
+        if params['name'] == 'reportCursorChange' && @cursor_callback
+          cursor_type = params['payload']
+          @cursor_callback.call(cursor_type)
+        end
+      end
+      
+      # Update the cursor reporting to use the binding
+      @page.evaluate(<<~JS)
+        window.reportCursorChange = function(cursor) {
+          reportCursorChange(cursor);
+        };
+      JS
+    end
+
     def disable_screencast
       return unless @screencast_enabled
       
