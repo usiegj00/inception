@@ -17,7 +17,7 @@ A Ruby gem that provides Guacamole-like remote desktop functionality for headles
 Install the gem by executing:
 
 ```bash
-gem install inception
+gem install inception-web
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ gem install inception
 Start the Inception server:
 
 ```bash
-inception serve
+inception-web serve
 ```
 
 This will:
@@ -46,7 +46,7 @@ Open your browser to `http://localhost:8080` and you'll see the remote browser s
 ### Command Options
 
 ```bash
-inception serve --port 3000 --host 127.0.0.1
+inception-web serve --port 3000 --host 127.0.0.1
 ```
 
 - `--port`: Port to run the server on (default: 8080)

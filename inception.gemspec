@@ -3,7 +3,7 @@
 require_relative "lib/inception/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "inception"
+  spec.name = "inception-web"
   spec.version = Inception::VERSION
   spec.authors = ["Jonathan Siegel"]
   spec.email = ["<248302+usiegj00@users.noreply.github.com>"]
