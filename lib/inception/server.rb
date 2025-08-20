@@ -376,7 +376,7 @@ module Inception
                               if (url && this.connected) {
                                   this.sendInput({
                                       type: 'navigate',
-                                      url: url.startsWith('http') ? url : `https://${url}`
+                                      url: url.includes('://') ? url : `https://${url}`
                                   });
                               }
                           });
@@ -388,10 +388,11 @@ module Inception
                           });
                           
                           this.refreshBtn.addEventListener('click', () => {
-                              if (this.connected && this.urlInput.value) {
+                              const url = this.urlInput.value.trim();
+                              if (this.connected && url) {
                                   this.sendInput({
                                       type: 'navigate',
-                                      url: this.urlInput.value
+                                      url: url.includes('://') ? url : `https://${url}`
                                   });
                               }
                           });
