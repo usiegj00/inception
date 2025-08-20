@@ -25,3 +25,6 @@ Thumbs.db
 # Chrome/Browser related
 chrome_debug.log
 *.debug
+tags
+
+*.gem
