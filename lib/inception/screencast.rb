@@ -49,7 +49,10 @@ module Inception
           @browser.type_text(data['text'])
         end
       when 'navigate'
-        @browser.navigate_to(data['url']) if data['url']
+        if data['url']
+          puts "DEBUG: Attempting to navigate to: #{data['url']}"
+          @browser.navigate_to(data['url'])
+        end
       end
     rescue => e
       puts "Error handling input: #{e.message}"

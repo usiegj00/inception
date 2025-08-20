@@ -376,7 +376,7 @@ module Inception
                               if (url && this.connected) {
                                   this.sendInput({
                                       type: 'navigate',
-                                      url: url.includes('://') ? url : `https://${url}`
+                                      url: (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('chrome://') || url.startsWith('file://') || url.startsWith('ftp://')) ? url : `https://${url}`
                                   });
                               }
                           });
@@ -392,7 +392,7 @@ module Inception
                               if (this.connected && url) {
                                   this.sendInput({
                                       type: 'navigate',
-                                      url: url.includes('://') ? url : `https://${url}`
+                                      url: (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('chrome://') || url.startsWith('file://') || url.startsWith('ftp://')) ? url : `https://${url}`
                                   });
                               }
                           });
