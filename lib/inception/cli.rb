@@ -7,6 +7,7 @@ module Inception
     desc "serve", "Start the Inception server with browser control interface"
     option :port, type: :numeric, default: 8080, desc: "Port to run the server on"
     option :host, type: :string, default: '0.0.0.0', desc: "Host to bind the server to"
+    option :show_cdp, type: :boolean, default: false, desc: "Show CDP connection information for MCP integration"
     def serve
       puts "🧠 Starting Inception - Remote Browser Control"
       puts "Port: #{options[:port]}"
@@ -18,6 +19,7 @@ module Inception
       
       Server.set :port, options[:port]
       Server.set :bind, options[:host]
+      Server.set :show_cdp_info, options[:show_cdp]
       Server.run_with_browser!
     end
 

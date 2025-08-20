@@ -74,6 +74,29 @@ module Inception
           @@screencast.start
           @@browser.navigate_to('https://duckduckgo.com')
           puts "Browser started and navigated to DuckDuckGo"
+          
+          # Show CDP information if requested
+          if settings.show_cdp_info
+            puts "\n" + "="*60
+            puts "🔌 MCP-Chrome Integration Available"
+            puts "="*60
+            if @@browser.cdp_port
+              puts "CDP Endpoint: #{@@browser.cdp_endpoint}"
+              puts "CDP HTTP Endpoint: #{@@browser.cdp_http_endpoint}"
+              puts "Port: #{@@browser.cdp_port}"
+              puts ""
+              puts "⚠️  Note: mcp-chrome currently requires Chrome extension."
+              puts "   For direct CDP integration, mcp-chrome would need modification."
+              puts ""
+              puts "📝 To use with mcp-chrome:"
+              puts "   1. Install mcp-chrome: npm install -g mcp-chrome-bridge"
+              puts "   2. The browser above is running with CDP enabled"
+              puts "   3. You can monitor browser activity via web UI and MCP simultaneously"
+            else
+              puts "❌ Could not determine CDP port"
+            end
+            puts "="*60 + "\n"
+          end
         rescue => e
           puts "Error starting browser: #{e.message}"
         end

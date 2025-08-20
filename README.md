@@ -1,4 +1,4 @@
-# 🧠 Incepti0n
+# 🧠 Inception Serve
 
 A Ruby gem that provides Guacamole-like remote desktop functionality for headless Chrome/Chromium browsers using CDP (Chrome DevTools Protocol) and Ferrum. Control a headless browser through a web interface with real-time screen streaming.
 
@@ -17,15 +17,15 @@ A Ruby gem that provides Guacamole-like remote desktop functionality for headles
 Install the gem by executing:
 
 ```bash
-gem install incepti0n
+gem install inception-serve
 ```
 
 ## Usage
 
-Start the Incepti0n server:
+Start the Inception Serve server:
 
 ```bash
-incepti0n serve
+inception-serve serve
 ```
 
 This will:
@@ -46,7 +46,7 @@ Open your browser to `http://localhost:8080` and you'll see the remote browser s
 ### Command Options
 
 ```bash
-incepti0n serve --port 3000 --host 127.0.0.1
+inception-serve serve --port 3000 --host 127.0.0.1
 ```
 
 - `--port`: Port to run the server on (default: 8080)
@@ -60,7 +60,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/usiegj00/inception. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/usiegj00/inception/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/usiegj00/inception-serve. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/usiegj00/inception-serve/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -68,4 +68,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Incepti0n project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/usiegj00/inception/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Inception Serve project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/usiegj00/inception-serve/blob/main/CODE_OF_CONDUCT.md).

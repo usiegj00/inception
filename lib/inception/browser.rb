@@ -6,7 +6,7 @@ require 'json'
 
 module Inception
   class Browser
-    attr_reader :browser, :page
+    attr_reader :browser, :page, :cdp_port
 
     def initialize(options = {})
       @options = default_options.merge(options)
@@ -14,13 +14,16 @@ module Inception
       @page = nil
       @screencast_enabled = false
       @logger = options[:logger] || default_logger
+      @cdp_port = nil
     end
 
     def start
       @logger.info "Starting browser with options: #{@options.inspect}"
       @browser = Ferrum::Browser.new(@options)
       @page = @browser.create_page
+      @cdp_port = extract_cdp_port
       @logger.info "Browser started successfully"
+      @logger.info "CDP endpoint available at: #{cdp_endpoint}" if @cdp_port
       @browser
     rescue => e
       @logger.error "Failed to start browser: #{e.message}"
@@ -191,10 +194,53 @@ module Inception
       }
     end
 
+    def cdp_endpoint
+      return nil unless @cdp_port
+      "ws://127.0.0.1:#{@cdp_port}"
+    end
+
+    def cdp_http_endpoint  
+      return nil unless @cdp_port
+      "http://127.0.0.1:#{@cdp_port}"
+    end
+
+    def mcp_chrome_config
+      return nil unless @cdp_port
+      {
+        message: "Configure mcp-chrome to connect to inception-serve browser:",
+        instructions: [
+          "1. The Chrome browser is already running with CDP enabled",
+          "2. mcp-chrome needs to connect to this CDP endpoint instead of launching its own browser",
+          "3. This requires modifying mcp-chrome to accept external CDP connections"
+        ],
+        cdp_endpoint: cdp_endpoint,
+        cdp_http_endpoint: cdp_http_endpoint,
+        port: @cdp_port,
+        note: "Currently mcp-chrome only works with Chrome extension. Direct CDP connection requires modification."
+      }
+    end
+
     private
 
     def ensure_started
       raise Error, "Browser not started. Call #start first." unless @browser && @page
+    end
+
+    def extract_cdp_port
+      return nil unless @browser
+      
+      # Get the CDP port from Ferrum browser instance
+      if @browser.respond_to?(:process) && @browser.process&.port
+        @browser.process.port
+      elsif @browser.respond_to?(:port)
+        @browser.port  
+      else
+        # Try to extract from browser options or command line
+        @options.dig(:browser_options, 'remote-debugging-port') || 9222
+      end
+    rescue => e
+      @logger.warn "Could not extract CDP port: #{e.message}"
+      nil
     end
 
     def default_options

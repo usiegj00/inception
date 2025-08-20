@@ -3,19 +3,19 @@
 require_relative "lib/inception/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "incepti0n"
+  spec.name = "inception-serve"
   spec.version = Inception::VERSION
   spec.authors = ["Jonathan Siegel"]
   spec.email = ["<248302+usiegj00@users.noreply.github.com>"]
 
   spec.summary = "Interactive headless browser control with screencast streaming"
   spec.description = "A Ruby gem that provides Guacamole-like remote desktop functionality for headless Chrome/Chromium browsers using CDP and Ferrum"
-  spec.homepage = "https://github.com/usiegj00/inception"
+  spec.homepage = "https://github.com/usiegj00/inception-serve"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/usiegj00/inception"
+  spec.metadata["source_code_uri"] = "https://github.com/usiegj00/inception-serve"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
