@@ -51,6 +51,9 @@ module Inception
       when 'navigate'
         if data['url']
           puts "DEBUG: Attempting to navigate to: #{data['url']}"
+          if data['url'].start_with?('chrome://')
+            puts "WARNING: chrome:// URLs may not work in headless Chrome. Try switching to non-headless mode."
+          end
           @browser.navigate_to(data['url'])
         end
       end
